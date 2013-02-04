@@ -11,7 +11,9 @@ require './portscan'
 
 File::open( @iplist ) { |f|
   f.each { |line|
-    Portscan.new(line.chomp, @ports).do_portscan
+    p = Portscan.new(line.chomp, @ports)
+    p.do_ping
+    p.do_portscan
     puts "----------------------------"
   }
 }

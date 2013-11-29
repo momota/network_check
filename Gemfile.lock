@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ffi (1.9.3)
+    net-ping (1.7.1)
+      ffi (>= 1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  net-ping (~> 1.7.1)

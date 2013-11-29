@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'ping'
 require 'net/ping'
 
 class Portscan
@@ -9,12 +7,17 @@ class Portscan
   end
 
   def do_ping
-    puts "#{@host} is up. [ICMP]" if Ping.pingecho(@host, timeout = 5, service = 'echo')
+    ping = Net::Ping::External.new( @host )
+    if ping.ping?
+      puts "#{@host} is up. [ICMP]"
+    else
+      puts "#{@host} is down. [ICMP]"
+    end
   end
 
   def do_portscan
     @ports.each { |p|
-      ping_tcp = Net::Ping::TCP.new(@host, p)
+      ping_tcp = Net::Ping::TCP.new(@host, p, timeout = 5)
       puts "#{@host}\t[#{p}]" if ping_tcp.ping?
     }
   end

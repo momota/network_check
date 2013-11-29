@@ -1,19 +1,13 @@
-#!/usr/local/bin/ruby
-require './portscan'
+$LOAD_PATH.push('.')
+require 'yaml'
+require 'lib/portscan'
 
-@iplist = ARGV[0] || "./pinglist.txt"
-@ports = [
-  'ftp',
-  'ssh',
-  'telnet',
-  3389  # RDP
-]
+input_file = ARGV[0] || "./input_files/pinglist.yml"
+iplist = YAML.load_file( input_file )
 
-File::open( @iplist ) { |f|
-  f.each { |line|
-    p = Portscan.new(line.chomp, @ports)
-    p.do_ping
-    p.do_portscan
-    puts "----------------------------"
-  }
+iplist["hosts"].each { |host|
+  p = Portscan.new(host, iplist["ports"])
+  p.do_ping
+  p.do_portscan
+  puts "----------------------------------"
 }
